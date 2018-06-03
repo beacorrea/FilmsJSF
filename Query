@@ -1,0 +1,29 @@
+select a from Actor a JOIN a.filmList f JOIN f.categoryList c where c.categoryId in :lista;
+
+public List<Film> buscarPeliculasPorCategoria(String cat){
+       Query q = this.em.createQuery("select f from Film f JOIN f.filmCategoryList c where c.category.name = :cat");
+       q.setParameter("cat", cat);
+       return q.getResultList();
+    }
+     
+    public Film findByFilmId(Short filmId){
+        Query q = this.em.createNamedQuery("Film.findByFilmId");
+        q.setParameter("filmId", filmId);
+        
+        List<Film> lista = q.getResultList();
+        if (lista == null || lista.size() == 0) {
+            return null;
+        } else {
+            return lista.get(0);
+        }
+    }
+    
+    public List<String> buscarNombresCategorias(){
+        Query q = this.em.createQuery("select c.name from Category c");
+        List<String> lista = q.getResultList();
+        if(lista == null || lista.size() == 0){
+            return null;
+        }else{
+            return lista;
+        }
+    }
